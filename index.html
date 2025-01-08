@@ -304,6 +304,8 @@
     const elements = [...commitGraph, ...rootTrees, ...interRootTreeEdges];
     var cy = cytoscape({
       container: document.getElementById('cy'), // container to render in
+      minZoom: 1,
+      maxZoom: 6,
       elements,
       style: [ // the stylesheet for the graph
         {
