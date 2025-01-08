@@ -131,6 +131,10 @@ DagreLayout.prototype.run = function(){
   setGObj( 'align', options.align);
   setGObj( 'ranker', options.ranker );
   setGObj( 'acyclicer', options.acyclicer);
+  // 50 corresponds to default ranksep
+  // 20 feels right with triangle
+  // TODO: Use ranksep
+  setGObj( 'marginy', 50*2 - 20);
 
   g.setGraph( gObj );
 
@@ -254,9 +258,10 @@ DagreLayout.prototype.run = function(){
   let xPositions = new Set();
   for (let i = 0; i < rootTreesObjects.length; i++) {
     const rootTreePosition = rootTreesObjects[i].position();
-    // TODO: Get level difference instead of subtracting height
-    // TODO: Adjust viewport height since commits are large
-    if (i === 0) y = rootTreePosition.y - rootTreesObjects[i].height();
+    // 50 corresponds to default ranksep
+    // 20 feels right with triangle
+    // TODO: Use ranksep
+    if (i === 0) y = rootTreePosition.y - rootTreesObjects[i].height() - 50 + 20;
     xPositions.add(rootTreePosition.x);
   }
   if (xPositions.size !== numberOfCommits) {
