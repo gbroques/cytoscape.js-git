@@ -1,0 +1,23 @@
+{
+  "name": "cytoscape.js-git",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "npx esbuild src/index.js --format=esm --sourcemap --bundle --outdir=./ --watch --servedir=./",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dagre": "^0.8.5"
+  },
+  "peerDependencies": {
+    "cytoscape": "^3.30.4"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.2"
+  }
+}

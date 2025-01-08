@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Git Explore</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      html, body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body id="cy">
+  </body>
+  <script>
+    // https://esbuild.github.io/api/#live-reload
+    new EventSource('/esbuild').addEventListener('change', () => location.reload())
+  </script>
+  <script type="importmap">
+    {
+      "imports": {
+        "cytoscape": "./node_modules/cytoscape/dist/cytoscape.esm.mjs",
+        "dagre": "./node_modules/dagre/dist/dagre.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import cytoscapeGit from './index.js'
+    import cytoscape from 'cytoscape';
+    cytoscape('layout', 'git', cytoscapeGit); // register with cytoscape.js
+    const commitGraph = [
+      // COMMITS
+      {
+        "data": {
+          "id": "5a6e4d2923db9c7518ce27038fc42f8fdf040c5d",
+          "shortId": "5a6e4d2",
+          "type": "ellipse",
+          "color": "green",
+          "borderColor": "darkgreen",
+          "objectType": "commit",
+          "size": 213,
+          "content": "tree 94f303f0933f23451a62642c4d5b28aabbb8d8a2\\nparent 3dd8f2f8ae9ed1801d2a776cc73748f39f822902\\nauthor G Roques <groques360@gmail.com> 1736308279 -0600\\ncommitter G Roques <groques360@gmail.com> 1736308279 -0600\\n\\nC4\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "3dd8f2f8ae9ed1801d2a776cc73748f39f822902",
+          "shortId": "3dd8f2f",
+          "type": "ellipse",
+          "color": "green",
+          "borderColor": "darkgreen",
+          "objectType": "commit",
+          "size": 213,
+          "content": "tree 757993103645c74706e5597e9d226bb61ef487f5\\nparent 850c1aa0f1ce5d081f376571c5d22c09d2ffa40a\\nauthor G Roques <groques360@gmail.com> 1736308156 -0600\\ncommitter G Roques <groques360@gmail.com> 1736308156 -0600\\n\\nC3\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "850c1aa0f1ce5d081f376571c5d22c09d2ffa40a",
+          "shortId": "850c1aa",
+          "type": "ellipse",
+          "color": "green",
+          "borderColor": "darkgreen",
+          "objectType": "commit",
+          "size": 213,
+          "content": "tree a5dd047c19f89e5d9a6bb04f3914ab47a7664e7d\\nparent 9cd6eec36f90f1cde45d345fec57276f9cafe936\\nauthor G Roques <groques360@gmail.com> 1736308122 -0600\\ncommitter G Roques <groques360@gmail.com> 1736308122 -0600\\n\\nC2\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "9cd6eec36f90f1cde45d345fec57276f9cafe936",
+          "shortId": "9cd6eec",
+          "type": "ellipse",
+          "color": "green",
+          "borderColor": "darkgreen",
+          "objectType": "commit",
+          "size": 165,
+          "content": "tree 95025e2d19dbb6e934a82809be657d454b6c6c5c\\nauthor G Roques <groques360@gmail.com> 1736308107 -0600\\ncommitter G Roques <groques360@gmail.com> 1736308107 -0600\\n\\nC1\\n"
+        }
+      },
+      // COMMIT EDGES
+      {
+        "data": {
+          "id": "3dd8f2f8ae9ed1801d2a776cc73748f39f822902757993103645c74706e5597e9d226bb61ef487f5",
+          "source": "3dd8f2f8ae9ed1801d2a776cc73748f39f822902",
+          "target": "757993103645c74706e5597e9d226bb61ef487f5"
+        }
+      },
+      {
+        "data": {
+          "id": "3dd8f2f8ae9ed1801d2a776cc73748f39f822902850c1aa0f1ce5d081f376571c5d22c09d2ffa40a",
+          "source": "3dd8f2f8ae9ed1801d2a776cc73748f39f822902",
+          "target": "850c1aa0f1ce5d081f376571c5d22c09d2ffa40a"
+        }
+      },
+      {
+        "data": {
+          "id": "9cd6eec36f90f1cde45d345fec57276f9cafe93695025e2d19dbb6e934a82809be657d454b6c6c5c",
+          "source": "9cd6eec36f90f1cde45d345fec57276f9cafe936",
+          "target": "95025e2d19dbb6e934a82809be657d454b6c6c5c"
+        }
+      },
+      {
+        "data": {
+          "id": "850c1aa0f1ce5d081f376571c5d22c09d2ffa40a9cd6eec36f90f1cde45d345fec57276f9cafe936",
+          "source": "850c1aa0f1ce5d081f376571c5d22c09d2ffa40a",
+          "target": "9cd6eec36f90f1cde45d345fec57276f9cafe936"
+        }
+      },
+      {
+        "data": {
+          "id": "850c1aa0f1ce5d081f376571c5d22c09d2ffa40aa5dd047c19f89e5d9a6bb04f3914ab47a7664e7d",
+          "source": "850c1aa0f1ce5d081f376571c5d22c09d2ffa40a",
+          "target": "a5dd047c19f89e5d9a6bb04f3914ab47a7664e7d"
+        }
+      },
+      {
+        "data": {
+          "id": "5a6e4d2923db9c7518ce27038fc42f8fdf040c5d94f303f0933f23451a62642c4d5b28aabbb8d8a2",
+          "source": "5a6e4d2923db9c7518ce27038fc42f8fdf040c5d",
+          "target": "94f303f0933f23451a62642c4d5b28aabbb8d8a2"
+        }
+      },
+      {
+        "data": {
+          "id": "5a6e4d2923db9c7518ce27038fc42f8fdf040c5d3dd8f2f8ae9ed1801d2a776cc73748f39f822902",
+          "source": "5a6e4d2923db9c7518ce27038fc42f8fdf040c5d",
+          "target": "3dd8f2f8ae9ed1801d2a776cc73748f39f822902"
+        }
+      },
+    ];
+    const rootTrees = [
+      {
+        "data": {
+          "id": "95025e2d19dbb6e934a82809be657d454b6c6c5c",
+          "shortId": "95025e2",
+          "type": "round-triangle",
+          "color": "blue",
+          "borderColor": "darkblue",
+          "objectType": "tree",
+          "size": 33,
+          "content": "100644 blob 0f6a4e6354e536514412ba38ab50ad6264a4d323\\t1.txt\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "0f6a4e6354e536514412ba38ab50ad6264a4d323",
+          "shortId": "0f6a4e6",
+          "type": "round-rectangle",
+          "color": "red",
+          "borderColor": "darkred",
+          "objectType": "blob",
+          "size": 9,
+          "content": "one text\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "a5dd047c19f89e5d9a6bb04f3914ab47a7664e7d",
+          "shortId": "a5dd047",
+          "type": "round-triangle",
+          "color": "blue",
+          "borderColor": "darkblue",
+          "objectType": "tree",
+          "size": 33,
+          "content": "100644 blob 5ddb8fbbb5f08e9a519c9ca2627b62769148717f\\t1.txt\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "5ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+          "shortId": "5ddb8fb",
+          "type": "round-rectangle",
+          "color": "red",
+          "borderColor": "darkred",
+          "objectType": "blob",
+          "size": 18,
+          "content": "one text\\na change\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "757993103645c74706e5597e9d226bb61ef487f5",
+          "shortId": "7579931",
+          "type": "round-triangle",
+          "color": "blue",
+          "borderColor": "darkblue",
+          "objectType": "tree",
+          "size": 63,
+          "content": "100644 blob 5ddb8fbbb5f08e9a519c9ca2627b62769148717f\\t1.txt\\n040000 tree ceb3233dbcd0400dc830446c7f60b83f92561573\\tdir\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "ceb3233dbcd0400dc830446c7f60b83f92561573",
+          "shortId": "ceb3233",
+          "type": "round-triangle",
+          "color": "blue",
+          "borderColor": "darkblue",
+          "objectType": "tree",
+          "size": 33,
+          "content": "100644 blob ae9195ccccc4d9230937c2ec2b9b717e7d7c0e02\\t2.txt\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "ae9195ccccc4d9230937c2ec2b9b717e7d7c0e02",
+          "shortId": "ae9195c",
+          "type": "round-rectangle",
+          "color": "red",
+          "borderColor": "darkred",
+          "objectType": "blob",
+          "size": 9,
+          "content": "two text\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "94f303f0933f23451a62642c4d5b28aabbb8d8a2",
+          "shortId": "94f303f",
+          "type": "round-triangle",
+          "color": "blue",
+          "borderColor": "darkblue",
+          "objectType": "tree",
+          "size": 96,
+          "content": "100644 blob 5ddb8fbbb5f08e9a519c9ca2627b62769148717f\\t1.txt\\n100644 blob 0f6a4e6354e536514412ba38ab50ad6264a4d323\\t3.txt\\n040000 tree ceb3233dbcd0400dc830446c7f60b83f92561573\\tdir\\n"
+        }
+      },
+      {
+        "data": {
+          "id": "95025e2d19dbb6e934a82809be657d454b6c6c5c0f6a4e6354e536514412ba38ab50ad6264a4d323",
+          "source": "95025e2d19dbb6e934a82809be657d454b6c6c5c",
+          "target": "0f6a4e6354e536514412ba38ab50ad6264a4d323",
+          "label": "1.txt",
+        }
+      },
+      {
+        "data": {
+          "id": "a5dd047c19f89e5d9a6bb04f3914ab47a7664e7d5ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+          "source": "a5dd047c19f89e5d9a6bb04f3914ab47a7664e7d",
+          "target": "5ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+          "label": "1.txt",
+        }
+      },
+      {
+        "data": {
+          "id": "757993103645c74706e5597e9d226bb61ef487f5ceb3233dbcd0400dc830446c7f60b83f92561573",
+          "source": "757993103645c74706e5597e9d226bb61ef487f5",
+          "target": "ceb3233dbcd0400dc830446c7f60b83f92561573",
+          "label": "dir",
+        }
+      },
+      {
+        "data": {
+          "id": "ceb3233dbcd0400dc830446c7f60b83f92561573ae9195ccccc4d9230937c2ec2b9b717e7d7c0e02",
+          "source": "ceb3233dbcd0400dc830446c7f60b83f92561573",
+          "target": "ae9195ccccc4d9230937c2ec2b9b717e7d7c0e02",
+          "label": "2.txt",
+        }
+      },
+    ];
+    const interRootTreeEdges = [
+      {
+        "data": {
+          "id": "757993103645c74706e5597e9d226bb61ef487f55ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+          "source": "757993103645c74706e5597e9d226bb61ef487f5",
+          "target": "5ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+        }
+      },
+      {
+        "data": {
+          "id": "94f303f0933f23451a62642c4d5b28aabbb8d8a25ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+          "source": "94f303f0933f23451a62642c4d5b28aabbb8d8a2",
+          "target": "5ddb8fbbb5f08e9a519c9ca2627b62769148717f",
+          "label": "1.txt",
+        }
+      },
+      {
+        "data": {
+          "id": "94f303f0933f23451a62642c4d5b28aabbb8d8a20f6a4e6354e536514412ba38ab50ad6264a4d323",
+          "source": "94f303f0933f23451a62642c4d5b28aabbb8d8a2",
+          "target": "0f6a4e6354e536514412ba38ab50ad6264a4d323",
+          "label": "3.txt",
+        }
+      },
+      {
+        "data": {
+          "id": "94f303f0933f23451a62642c4d5b28aabbb8d8a2ceb3233dbcd0400dc830446c7f60b83f92561573",
+          "source": "94f303f0933f23451a62642c4d5b28aabbb8d8a2",
+          "target": "ceb3233dbcd0400dc830446c7f60b83f92561573",
+          "label": "dir",
+        }
+      },
+    ];
+    cytoscape.use(cytoscapeGit);
+    const layout = {name: 'git', numberOfCommits: 4};
+    const elements = [...commitGraph, ...rootTrees, ...interRootTreeEdges];
+    var cy = cytoscape({
+      container: document.getElementById('cy'), // container to render in
+      elements,
+      style: [ // the stylesheet for the graph
+        {
+          "selector": "node",
+          "style": {
+            'background-color': 'data(color)',
+            'border-color': 'data(borderColor)',
+            'border-width': 2,
+            "shape": "data(type)",
+            "label": "data(shortId)",
+            "height": 80,
+            "width": 80,
+            "text-valign": "center",
+            "text-halign": "center",
+            'text-margin-y': '30px',
+            'color': 'white',
+            'font-weight': 'bold'
+          }
+        },
+        {
+          selector: 'edge',
+          style: {
+            'width': 1,
+            "label": "data(label)",
+            'text-outline-width': 3,
+            'text-outline-color': 'white',
+            'line-color': '#000',
+            'target-arrow-color': '#000',
+            'target-arrow-shape': 'triangle',
+            'curve-style': 'bezier',
+          }
+        }
+      ],
+      layout
+    });
+  </script>
+</html>
